@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: mediacms
+spec:
+  selector:
+    matchLabels:
+      app: mediacms
+  template:
+    metadata:
+      labels:
+        app: mediacms
+    spec:
+      initContainers:
+      - name: postgres-check
+        image: postgres:15
+        command: ['sh', '-c', 
+          'until pg_isready -h db -p 5432; 
+          do echo waiting for database; sleep 2; done;']
+      - name: migrations
+        image: hoangbaoan1901/mediacms
+        # imagePullPolicy: Always
+        command: [ "/bin/bash","-c" ]
+        args:
+          - 
+            mkdir -p /home/mediacms.io/mediacms/cms/;
+            cp /local_settings.py  /home/mediacms.io/mediacms/cms/local_settings.py;
+            python manage.py migrate;
+            python manage.py loaddata fixtures/encoding_profiles.json;
+            python manage.py loaddata fixtures/categories.json;
+            python manage.py collectstatic --noinput;
+            echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='${adminUser}').delete(); User.objects.create_superuser('${adminUser}','admin@example.com', '${adminPass}')" | python manage.py shell
+        envFrom:
+          - secretRef:
+              name: mediacms-admin
+        volumeMounts:
+          - mountPath: /local_settings.py
+            name: settings
+            subPath: local_settings.py
+      containers:
+      - name: web
+        image: hoangbaoan1901/mediacms
+        # imagePullPolicy: Always
+        command: [ "/bin/bash","-c" ]
+        args:
+          - 
+            cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py;
+            chown www-data.www-data /home/mediacms.io/mediacms/logs -R;
+            /home/mediacms.io/mediacms/deploy/docker/start.sh
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "50m"
+        envFrom:
+          - secretRef:
+              name: mediacms-admin
+        env:
+        - name: ENABLE_UWSGI
+          value: "yes"
+        - name: ENABLE_NGINX
+          value: "yes"
+        - name: ENABLE_CELERY_BEAT
+          value: "no" 
+        - name: ENABLE_MIGRATIONS
+          value: "no"
+        - name: ENABLE_CELERY_SHORT
+          value: "no"
+        - name: ENABLE_CELERY_LONG
+          value: "no"             
+        ports:
+        - name: web
+          containerPort: 80
+        - name: uwsgi
+          containerPort: 9000
+        volumeMounts:
+          - mountPath: /home/mediacms.io/mediacms/media_files
+            name: mediacms
+            subPath: media_files
+          - mountPath: /home/mediacms.io/mediacms/logs
+            name: mediacms
+            subPath: logs
+          - mountPath: /local_settings.py
+            name: settings
+            subPath: local_settings.py
+      volumes:
+        - name: mediacms
+          persistentVolumeClaim:
+              claimName: mediacms
+        - name: mediacms-admin
+          secret:
+            secretName: mediacms-admin      
+        - name: settings
+          configMap:
+            name: local-settings
+              

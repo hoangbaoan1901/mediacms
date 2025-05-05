@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  name: mediacms
+  namespace: mediacms
+spec:
+  rules:
+  - host: mediacms.k8s.globelock.home
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: website
+            port: 
+              number: 80
+  tls:
+    - hosts: 
+        - mediacms.k8s.globelock.home

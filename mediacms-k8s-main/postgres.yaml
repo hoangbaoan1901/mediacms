@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: mediacms
+  labels:
+    app: postgres
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+          - name: POSTGRES_USER
+            value: mediacms  
+          - name: POSTGRES_PASSWORD
+            value: mediacms
+          - name: POSTGRES_DB
+            value: mediacms   
+          - name: PGDATA
+            value: /mediacms   
+
+        volumeMounts:
+          - mountPath: /mediacms
+            name: pg-data
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+      volumes:
+        - name: pg-data
+          persistentVolumeClaim:
+            claimName: db-pvc
