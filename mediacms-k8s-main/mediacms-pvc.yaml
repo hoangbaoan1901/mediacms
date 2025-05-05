@@ -8,4 +8,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 32G
+      storage: 500Gi
+
+  storageClassName: filestore-rwm
