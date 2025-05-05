@@ -5,7 +5,7 @@ metadata:
   namespace: mediacms
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 32G
