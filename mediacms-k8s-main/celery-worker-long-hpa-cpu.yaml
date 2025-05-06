@@ -4,7 +4,7 @@ metadata:
   name: celery-worker-long-cpu
   namespace: mediacms
 spec:
-  maxReplicas: 4
+  maxReplicas: 5
   metrics:
   - resource:
       name: cpu
