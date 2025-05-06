@@ -18,7 +18,7 @@ spec:
         resources:
           requests:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "100m"
         env:
         - name: ENABLE_UWSGI
           value: "no"

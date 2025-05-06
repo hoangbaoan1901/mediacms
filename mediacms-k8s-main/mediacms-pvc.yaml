@@ -5,9 +5,7 @@ metadata:
   namespace: mediacms
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 500Gi
-
-  storageClassName: filestore-rwm
+      storage: 32Gi
