@@ -7,7 +7,7 @@ metadata:
   namespace: mediacms
 spec:
   rules:
-  - host: mediacms.k8s.globelock.home
+  - host: localhost
     http:
       paths:
       - pathType: Prefix
@@ -19,4 +19,4 @@ spec:
               number: 80
   tls:
     - hosts: 
-        - mediacms.k8s.globelock.home
+        - localhost
