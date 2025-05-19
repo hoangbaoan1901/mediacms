@@ -69,6 +69,7 @@ DEFAULT_FROM_EMAIL = "uet_mediacms@outlook.com"
 EMAIL_HOST_PASSWORD = "ikkqrjahichgplyg"
 EMAIL_HOST_USER = "uet_mediacms@outlook.com"
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_HOST = "smtp-mail.outlook.com"
 EMAIL_PORT = 587

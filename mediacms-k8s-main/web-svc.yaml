@@ -4,7 +4,7 @@ metadata:
   name: website
   namespace: mediacms
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: web
       port: 80

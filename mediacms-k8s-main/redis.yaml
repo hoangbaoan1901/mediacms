@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis:6.2
+        image: redis:alpine
         imagePullPolicy: IfNotPresent
         resources:
           requests:
