@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: mediacms
+data:
+  redis.conf: |
+    appendonly yes
+    protected-mode no
+    dir /data
+    port 6379
+    maxmemory 400mb
+    maxmemory-policy allkeys-lru

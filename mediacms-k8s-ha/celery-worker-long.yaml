@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker-long
+  namespace: mediacms
+spec:
+  selector:
+    matchLabels:
+      app: celery-worker-long
+  template:
+    metadata:
+      labels:
+        app: celery-worker-long
+    spec:
+      containers:
+      - name: celery-worker-long
+        image: hoangbaoan1901/mediacms
+        command: [ "/bin/bash","-c" ]
+        args:
+          - 
+            cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py;
+            chmod 777 /var/run;
+            /home/mediacms.io/bin/celery worker -c 1 -Q long_tasks --loglevel=INFO
+        # imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "25m" 
+        env:
+        - name: ENABLE_UWSGI
+          value: "no"
+        - name: ENABLE_NGINX
+          value: "no"
+        - name: ENABLE_CELERY_BEAT
+          value: "no" 
+        - name: ENABLE_MIGRATIONS
+          value: "no"
+        - name: ENABLE_CELERY_SHORT
+          value: "no"
+        - name: ENABLE_CELERY_LONG
+          value: "yes"    
+        volumeMounts:
+        - mountPath: /home/mediacms.io/mediacms/media_files
+          name: mediacms
+          subPath: media_files
+        - mountPath: /home/mediacms.io/mediacms/logs
+          name: mediacms
+          subPath: logs
+        - mountPath: /local_settings.py
+          name: settings
+          subPath: local_settings.py
+      volumes:
+        - name: mediacms
+          persistentVolumeClaim:
+              claimName: mediacms
+        - name: settings
+          configMap:
+            name: local-settings            

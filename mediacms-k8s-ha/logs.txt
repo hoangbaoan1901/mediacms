@@ -1,0 +1,1146 @@
+Name:             celery-beat-6fd6d57bc4-z2wj6
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:45:55 +0700
+Labels:           app=celery-beat
+                  pod-template-hash=6fd6d57bc4
+Annotations:      cni.projectcalico.org/containerID: caa0d7e4bd4d7f0b936458685ccffa94f51478ec9941a07541f1cb6caadabd9c
+                  cni.projectcalico.org/podIP: 10.42.0.171/32
+                  cni.projectcalico.org/podIPs: 10.42.0.171/32
+Status:           Running
+IP:               10.42.0.171
+IPs:
+  IP:           10.42.0.171
+Controlled By:  ReplicaSet/celery-beat-6fd6d57bc4
+Containers:
+  celery-beat:
+    Container ID:   containerd://3d025decdcea31c4c3fe75fa5155eb86b250cdc054e953778e0412365d1490ae
+    Image:          hoangbaoan1901/mediacms
+    Image ID:       docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 05 May 2025 20:46:10 +0700
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:     500m
+      memory:  128Mi
+    Environment:
+      ENABLE_UWSGI:         no
+      ENABLE_NGINX:         no
+      ENABLE_CELERY_BEAT:   yes
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  no
+      ENABLE_CELERY_LONG:   no
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-n99l6 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-n99l6:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m33s  default-scheduler  Successfully assigned mediacms/celery-beat-6fd6d57bc4-z2wj6 to debian
+  Normal  Pulling    9m30s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     9m19s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 10.713s (10.713s including waiting). Image size: 574925288 bytes.
+  Normal  Created    9m18s  kubelet            Created container: celery-beat
+  Normal  Started    9m18s  kubelet            Started container celery-beat
+
+
+Name:             celery-worker-long-8d5655d6f-b2hf8
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:09 +0700
+Labels:           app=celery-worker-long
+                  pod-template-hash=8d5655d6f
+Annotations:      cni.projectcalico.org/containerID: d82e811a55787f50acdf80222df714597f75791ad8a0180ab603acdc685e4f90
+                  cni.projectcalico.org/podIP: 10.42.0.177/32
+                  cni.projectcalico.org/podIPs: 10.42.0.177/32
+Status:           Running
+IP:               10.42.0.177
+IPs:
+  IP:           10.42.0.177
+Controlled By:  ReplicaSet/celery-worker-long-8d5655d6f
+Containers:
+  celery-worker-long:
+    Container ID:  containerd://74e451fbdd1f01f7031b44e0b825b531fbb067d8cf1e7066b1e95041c09e32a2
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+    Args:
+      cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py; chmod 777 /var/run; /home/mediacms.io/bin/celery worker -c 1 -Q long_tasks --loglevel=INFO
+    State:          Running
+      Started:      Mon, 05 May 2025 20:46:35 +0700
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:     25m
+      memory:  256Mi
+    Environment:
+      ENABLE_UWSGI:         no
+      ENABLE_NGINX:         no
+      ENABLE_CELERY_BEAT:   no
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  no
+      ENABLE_CELERY_LONG:   yes
+    Mounts:
+      /home/mediacms.io/mediacms/logs from mediacms (rw,path="logs")
+      /home/mediacms.io/mediacms/media_files from mediacms (rw,path="media_files")
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-gshcv (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  mediacms:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mediacms
+    ReadOnly:   false
+  settings:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      local-settings
+    Optional:  false
+  kube-api-access-gshcv:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  9m33s  default-scheduler  0/1 nodes are available: persistentvolumeclaim "mediacms" not found. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+  Normal   Scheduled         9m19s  default-scheduler  Successfully assigned mediacms/celery-worker-long-8d5655d6f-b2hf8 to debian
+  Normal   Pulling           9m10s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal   Pulled            8m55s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 14.839s (14.839s including waiting). Image size: 574925288 bytes.
+  Normal   Created           8m53s  kubelet            Created container: celery-worker-long
+  Normal   Started           8m53s  kubelet            Started container celery-worker-long
+
+
+Name:             celery-worker-short-85d65d8c5c-b6qcc
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:09 +0700
+Labels:           app=celery-worker-short
+                  pod-template-hash=85d65d8c5c
+Annotations:      cni.projectcalico.org/containerID: 69a18bba4167286284d3e3767b8d1e3972d6a0ed52410866defeb1dfd4687425
+                  cni.projectcalico.org/podIP: 10.42.0.178/32
+                  cni.projectcalico.org/podIPs: 10.42.0.178/32
+Status:           Running
+IP:               10.42.0.178
+IPs:
+  IP:           10.42.0.178
+Controlled By:  ReplicaSet/celery-worker-short-85d65d8c5c
+Containers:
+  celery-worker-short:
+    Container ID:  containerd://05d6d772ad11c43c479311b4f5c7fe60861dee904eef9e71cb11974567e8cffb
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+    Args:
+      cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py; chmod 777 /var/run; /home/mediacms.io/bin/celery worker -c 1 -Q short_tasks --loglevel=INFO
+    State:          Running
+      Started:      Mon, 05 May 2025 20:46:35 +0700
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:     500m
+      memory:  1000Mi
+    Environment:
+      ENABLE_UWSGI:         no
+      ENABLE_NGINX:         no
+      ENABLE_CELERY_BEAT:   no
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  yes
+      ENABLE_CELERY_LONG:   no
+    Mounts:
+      /home/mediacms.io/mediacms/logs from mediacms (rw,path="logs")
+      /home/mediacms.io/mediacms/media_files from mediacms (rw,path="media_files")
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hw8wm (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  mediacms:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mediacms
+    ReadOnly:   false
+  settings:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      local-settings
+    Optional:  false
+  kube-api-access-hw8wm:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  9m32s  default-scheduler  0/1 nodes are available: persistentvolumeclaim "mediacms" not found. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+  Normal   Scheduled         9m18s  default-scheduler  Successfully assigned mediacms/celery-worker-short-85d65d8c5c-b6qcc to debian
+  Normal   Pulling           9m8s   kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal   Pulled            8m55s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 13.276s (13.276s including waiting). Image size: 574925288 bytes.
+  Normal   Created           8m53s  kubelet            Created container: celery-worker-short
+  Normal   Started           8m53s  kubelet            Started container celery-worker-short
+
+
+Name:             postgres-0
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:15 +0700
+Labels:           app=postgres
+                  apps.kubernetes.io/pod-index=0
+                  controller-revision-hash=postgres-7868ccb986
+                  statefulset.kubernetes.io/pod-name=postgres-0
+Annotations:      cni.projectcalico.org/containerID: b934e277c3e019c1b66ab9bacdd83c847554f136fa7d1b200f857df207e9c0f4
+                  cni.projectcalico.org/podIP: 10.42.0.180/32
+                  cni.projectcalico.org/podIPs: 10.42.0.180/32
+Status:           Running
+IP:               10.42.0.180
+IPs:
+  IP:           10.42.0.180
+Controlled By:  StatefulSet/postgres
+Containers:
+  postgres:
+    Container ID:   containerd://7bc78e4abdc7f9eb842d38113b24ed1f3e2b3dc84057ef6f1af8f5413cc9a099
+    Image:          postgres:15
+    Image ID:       docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:           5432/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 05 May 2025 20:46:28 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:      500m
+      memory:   256Mi
+    Liveness:   exec [pg_isready -U mediacms] delay=30s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  exec [pg_isready -U mediacms] delay=10s timeout=1s period=5s #success=1 #failure=3
+    Environment:
+      POSTGRES_HOST_AUTH_METHOD:  trust
+      POSTGRES_USER:              mediacms
+      POSTGRES_PASSWORD:          mediacms
+      POSTGRES_DB:                mediacms
+      PGDATA:                     /mediacms
+      POD_NAME:                   postgres-0 (v1:metadata.name)
+    Mounts:
+      /mediacms from pg-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5kcch (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  pg-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  pg-data-postgres-0
+    ReadOnly:   false
+  kube-api-access-5kcch:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m13s  default-scheduler  Successfully assigned mediacms/postgres-0 to debian
+  Normal  Pulled     9m3s   kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    9m     kubelet            Created container: postgres
+  Normal  Started    9m     kubelet            Started container postgres
+
+
+Name:             postgres-1
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:47:06 +0700
+Labels:           app=postgres
+                  apps.kubernetes.io/pod-index=1
+                  controller-revision-hash=postgres-7868ccb986
+                  statefulset.kubernetes.io/pod-name=postgres-1
+Annotations:      cni.projectcalico.org/containerID: ead8c0a8c708533ea844631e64f5323b88a73325a1db757a0003b07418a0d3f4
+                  cni.projectcalico.org/podIP: 10.42.0.185/32
+                  cni.projectcalico.org/podIPs: 10.42.0.185/32
+Status:           Running
+IP:               10.42.0.185
+IPs:
+  IP:           10.42.0.185
+Controlled By:  StatefulSet/postgres
+Containers:
+  postgres:
+    Container ID:   containerd://f42f0df67124774ac7dd3a440e194e66d6ec04c35e0004cf759f642ed1cceeff
+    Image:          postgres:15
+    Image ID:       docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:           5432/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 05 May 2025 20:47:18 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:      500m
+      memory:   256Mi
+    Liveness:   exec [pg_isready -U mediacms] delay=30s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  exec [pg_isready -U mediacms] delay=10s timeout=1s period=5s #success=1 #failure=3
+    Environment:
+      POSTGRES_HOST_AUTH_METHOD:  trust
+      POSTGRES_USER:              mediacms
+      POSTGRES_PASSWORD:          mediacms
+      POSTGRES_DB:                mediacms
+      PGDATA:                     /mediacms
+      POD_NAME:                   postgres-1 (v1:metadata.name)
+    Mounts:
+      /mediacms from pg-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jzjb2 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  pg-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  pg-data-postgres-1
+    ReadOnly:   false
+  kube-api-access-jzjb2:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  8m21s  default-scheduler  Successfully assigned mediacms/postgres-1 to debian
+  Normal  Pulled     8m12s  kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    8m10s  kubelet            Created container: postgres
+  Normal  Started    8m10s  kubelet            Started container postgres
+
+
+Name:             postgres-2
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:47:52 +0700
+Labels:           app=postgres
+                  apps.kubernetes.io/pod-index=2
+                  controller-revision-hash=postgres-7868ccb986
+                  statefulset.kubernetes.io/pod-name=postgres-2
+Annotations:      cni.projectcalico.org/containerID: fcfea481be7f06b544a83bbd42e9216dc50bf53752ded3be08f5e991e9c617cf
+                  cni.projectcalico.org/podIP: 10.42.0.189/32
+                  cni.projectcalico.org/podIPs: 10.42.0.189/32
+Status:           Running
+IP:               10.42.0.189
+IPs:
+  IP:           10.42.0.189
+Controlled By:  StatefulSet/postgres
+Containers:
+  postgres:
+    Container ID:   containerd://eca82004c4cc0bdf78d6237fb54979a3bad255bf50b5d908c418d4ccb3d6b78b
+    Image:          postgres:15
+    Image ID:       docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:           5432/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 05 May 2025 20:48:00 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:      500m
+      memory:   256Mi
+    Liveness:   exec [pg_isready -U mediacms] delay=30s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  exec [pg_isready -U mediacms] delay=10s timeout=1s period=5s #success=1 #failure=3
+    Environment:
+      POSTGRES_HOST_AUTH_METHOD:  trust
+      POSTGRES_USER:              mediacms
+      POSTGRES_PASSWORD:          mediacms
+      POSTGRES_DB:                mediacms
+      PGDATA:                     /mediacms
+      POD_NAME:                   postgres-2 (v1:metadata.name)
+    Mounts:
+      /mediacms from pg-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zslck (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  pg-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  pg-data-postgres-2
+    ReadOnly:   false
+  kube-api-access-zslck:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  7m35s  default-scheduler  Successfully assigned mediacms/postgres-2 to debian
+  Normal  Pulled     7m29s  kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    7m28s  kubelet            Created container: postgres
+  Normal  Started    7m28s  kubelet            Started container postgres
+
+
+Name:             redis-0
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:19 +0700
+Labels:           app=redis
+                  apps.kubernetes.io/pod-index=0
+                  controller-revision-hash=redis-7d6b6bfd7d
+                  statefulset.kubernetes.io/pod-name=redis-0
+Annotations:      cni.projectcalico.org/containerID: fe59f29baf21ed8b454c771b20e306c434c4a79804d795f78052fa7ae7f2985a
+                  cni.projectcalico.org/podIP: 10.42.0.181/32
+                  cni.projectcalico.org/podIPs: 10.42.0.181/32
+Status:           Running
+IP:               10.42.0.181
+IPs:
+  IP:           10.42.0.181
+Controlled By:  StatefulSet/redis
+Containers:
+  redis:
+    Container ID:  containerd://636a46bc345b3fe5809473399d2c4a7369faa81b5b7d2b19cbc705da39fc0aef
+    Image:         redis:6.2
+    Image ID:      docker.io/library/redis@sha256:e88f17dbd436fa532b0be577b17f8afb3455dea89e04c2a1f50090fb254d3d4b
+    Port:          6379/TCP
+    Host Port:     0/TCP
+    Command:
+      redis-server
+      /redis-config/redis.conf
+    State:          Running
+      Started:      Mon, 05 May 2025 20:46:31 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:        100m
+      memory:     128Mi
+    Liveness:     tcp-socket :6379 delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /data from redis-data (rw)
+      /redis-config from redis-config (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-972jh (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  redis-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  redis-data-redis-0
+    ReadOnly:   false
+  redis-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      redis-config
+    Optional:  false
+  kube-api-access-972jh:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m9s   default-scheduler  Successfully assigned mediacms/redis-0 to debian
+  Normal  Pulled     9m     kubelet            Container image "redis:6.2" already present on machine
+  Normal  Created    8m58s  kubelet            Created container: redis
+  Normal  Started    8m57s  kubelet            Started container redis
+
+
+Name:             redis-1
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:47:04 +0700
+Labels:           app=redis
+                  apps.kubernetes.io/pod-index=1
+                  controller-revision-hash=redis-7d6b6bfd7d
+                  statefulset.kubernetes.io/pod-name=redis-1
+Annotations:      cni.projectcalico.org/containerID: cf84ab09236161a30e25e5fd12dec044016f01a094ebd0a0e741345fc3efce4f
+                  cni.projectcalico.org/podIP: 10.42.0.184/32
+                  cni.projectcalico.org/podIPs: 10.42.0.184/32
+Status:           Running
+IP:               10.42.0.184
+IPs:
+  IP:           10.42.0.184
+Controlled By:  StatefulSet/redis
+Containers:
+  redis:
+    Container ID:  containerd://e4f9613bf0b7356527bd181d687b9cff827d6a7184d40f74c91210b089671962
+    Image:         redis:6.2
+    Image ID:      docker.io/library/redis@sha256:e88f17dbd436fa532b0be577b17f8afb3455dea89e04c2a1f50090fb254d3d4b
+    Port:          6379/TCP
+    Host Port:     0/TCP
+    Command:
+      redis-server
+      /redis-config/redis.conf
+    State:          Running
+      Started:      Mon, 05 May 2025 20:47:17 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:        100m
+      memory:     128Mi
+    Liveness:     tcp-socket :6379 delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /data from redis-data (rw)
+      /redis-config from redis-config (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-dc9r9 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  redis-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  redis-data-redis-1
+    ReadOnly:   false
+  redis-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      redis-config
+    Optional:  false
+  kube-api-access-dc9r9:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  8m24s  default-scheduler  Successfully assigned mediacms/redis-1 to debian
+  Normal  Pulled     8m14s  kubelet            Container image "redis:6.2" already present on machine
+  Normal  Created    8m12s  kubelet            Created container: redis
+  Normal  Started    8m11s  kubelet            Started container redis
+
+
+Name:             redis-2
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:47:50 +0700
+Labels:           app=redis
+                  apps.kubernetes.io/pod-index=2
+                  controller-revision-hash=redis-7d6b6bfd7d
+                  statefulset.kubernetes.io/pod-name=redis-2
+Annotations:      cni.projectcalico.org/containerID: fdb814aa0b7246a7e75594e278c4b61c3390ea5c4e853341fdc87535146255fb
+                  cni.projectcalico.org/podIP: 10.42.0.188/32
+                  cni.projectcalico.org/podIPs: 10.42.0.188/32
+Status:           Running
+IP:               10.42.0.188
+IPs:
+  IP:           10.42.0.188
+Controlled By:  StatefulSet/redis
+Containers:
+  redis:
+    Container ID:  containerd://ec075bb41bda90e34f031883aafd51ed58803c6b338de73b504d4806b5fdbbc1
+    Image:         redis:6.2
+    Image ID:      docker.io/library/redis@sha256:e88f17dbd436fa532b0be577b17f8afb3455dea89e04c2a1f50090fb254d3d4b
+    Port:          6379/TCP
+    Host Port:     0/TCP
+    Command:
+      redis-server
+      /redis-config/redis.conf
+    State:          Running
+      Started:      Mon, 05 May 2025 20:47:59 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:        100m
+      memory:     128Mi
+    Liveness:     tcp-socket :6379 delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /data from redis-data (rw)
+      /redis-config from redis-config (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pmzqr (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  redis-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  redis-data-redis-2
+    ReadOnly:   false
+  redis-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      redis-config
+    Optional:  false
+  kube-api-access-pmzqr:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  7m38s  default-scheduler  Successfully assigned mediacms/redis-2 to debian
+  Normal  Pulled     7m31s  kubelet            Container image "redis:6.2" already present on machine
+  Normal  Created    7m29s  kubelet            Created container: redis
+  Normal  Started    7m29s  kubelet            Started container redis
+
+
+Name:             web-6f448c4995-hbmhh
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:09 +0700
+Labels:           app=mediacms
+                  pod-template-hash=6f448c4995
+Annotations:      cni.projectcalico.org/containerID: d31f42cb5fc37f881de27a22e1343faa915d58731f69f3f3d4cd9636d10e4aaf
+                  cni.projectcalico.org/podIP: 10.42.0.176/32
+                  cni.projectcalico.org/podIPs: 10.42.0.176/32
+Status:           Running
+IP:               10.42.0.176
+IPs:
+  IP:           10.42.0.176
+Controlled By:  ReplicaSet/web-6f448c4995
+Init Containers:
+  postgres-check:
+    Container ID:  containerd://0790c35d74a4abeb57cd68575c498db216c7b787ec47823c1b9ee0c34a9ef777
+    Image:         postgres:15
+    Image ID:      docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      until pg_isready -h db -p 5432; do echo waiting for database; sleep 2; done;
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:46:23 +0700
+      Finished:     Mon, 05 May 2025 20:46:41 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-qpw4n (ro)
+  migrations:
+    Container ID:  containerd://22bb4de45649c74efd15d7d5335aac5844a5c59cdc7433a1153cbb511510e4a9
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+    Args:
+      mkdir -p /home/mediacms.io/mediacms/cms/; cp /local_settings.py  /home/mediacms.io/mediacms/cms/local_settings.py; python manage.py migrate; python manage.py loaddata fixtures/encoding_profiles.json; python manage.py loaddata fixtures/categories.json; python manage.py collectstatic --noinput; echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='${adminUser}').delete(); User.objects.create_superuser('${adminUser}','admin@example.com', '${adminPass}')" | python manage.py shell
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:47:53 +0700
+      Finished:     Mon, 05 May 2025 20:48:07 +0700
+    Ready:          True
+    Restart Count:  1
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:      <none>
+    Mounts:
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-qpw4n (ro)
+Containers:
+  web:
+    Container ID:  containerd://25eb8b221204dc03f58a25295189fc8b9d9b08d837de9105df361fd7adab0218
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Ports:         80/TCP, 9000/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Command:
+      /bin/bash
+      -c
+    Args:
+      cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py; chown www-data.www-data /home/mediacms.io/mediacms/logs -R; /home/mediacms.io/mediacms/deploy/docker/start.sh
+    State:          Running
+      Started:      Mon, 05 May 2025 20:48:17 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:      50m
+      memory:   100Mi
+    Liveness:   http-get http://:80/ delay=60s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:80/ delay=30s timeout=1s period=10s #success=1 #failure=3
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:
+      ENABLE_UWSGI:         yes
+      ENABLE_NGINX:         yes
+      ENABLE_CELERY_BEAT:   no
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  no
+      ENABLE_CELERY_LONG:   no
+    Mounts:
+      /home/mediacms.io/mediacms/logs from mediacms (rw,path="logs")
+      /home/mediacms.io/mediacms/media_files from mediacms (rw,path="media_files")
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-qpw4n (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  mediacms:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mediacms
+    ReadOnly:   false
+  mediacms-admin:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mediacms-admin
+    Optional:    false
+  settings:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      local-settings
+    Optional:  false
+  kube-api-access-qpw4n:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age                    From               Message
+  ----    ------     ----                   ----               -------
+  Normal  Scheduled  9m18s                  default-scheduler  Successfully assigned mediacms/web-6f448c4995-hbmhh to debian
+  Normal  Pulled     9m8s                   kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    9m6s                   kubelet            Created container: postgres-check
+  Normal  Started    9m5s                   kubelet            Started container postgres-check
+  Normal  Pulled     8m20s                  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 25.418s (25.418s including waiting). Image size: 574925288 bytes.
+  Normal  Pulling    7m57s (x2 over 8m46s)  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     7m37s                  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 19.362s (19.362s including waiting). Image size: 574925288 bytes.
+  Normal  Created    7m35s (x2 over 8m16s)  kubelet            Created container: migrations
+  Normal  Started    7m34s (x2 over 8m16s)  kubelet            Started container migrations
+  Normal  Pulling    7m18s                  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     7m12s                  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 6.373s (6.373s including waiting). Image size: 574925288 bytes.
+  Normal  Created    7m11s                  kubelet            Created container: web
+  Normal  Started    7m11s                  kubelet            Started container web
+
+
+Name:             web-6f448c4995-tgfbv
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:09 +0700
+Labels:           app=mediacms
+                  pod-template-hash=6f448c4995
+Annotations:      cni.projectcalico.org/containerID: 227474b33f3df8666bd38d50fcf0d3a06a9c41d976ded7285b275c86607bc46f
+                  cni.projectcalico.org/podIP: 10.42.0.179/32
+                  cni.projectcalico.org/podIPs: 10.42.0.179/32
+Status:           Running
+IP:               10.42.0.179
+IPs:
+  IP:           10.42.0.179
+Controlled By:  ReplicaSet/web-6f448c4995
+Init Containers:
+  postgres-check:
+    Container ID:  containerd://a14746dfb57414579619b4b92c45ebd7f4f7b6ec6dd8685da3411d4e70e20d65
+    Image:         postgres:15
+    Image ID:      docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      until pg_isready -h db -p 5432; do echo waiting for database; sleep 2; done;
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:46:24 +0700
+      Finished:     Mon, 05 May 2025 20:46:42 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-49hbq (ro)
+  migrations:
+    Container ID:  containerd://1fcc2e6479ecb5c2275d967536818483f5b4c58f03d1e475f298d17f207f7e2d
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+    Args:
+      mkdir -p /home/mediacms.io/mediacms/cms/; cp /local_settings.py  /home/mediacms.io/mediacms/cms/local_settings.py; python manage.py migrate; python manage.py loaddata fixtures/encoding_profiles.json; python manage.py loaddata fixtures/categories.json; python manage.py collectstatic --noinput; echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='${adminUser}').delete(); User.objects.create_superuser('${adminUser}','admin@example.com', '${adminPass}')" | python manage.py shell
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:47:15 +0700
+      Finished:     Mon, 05 May 2025 20:47:29 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:      <none>
+    Mounts:
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-49hbq (ro)
+Containers:
+  web:
+    Container ID:  containerd://2b2718c26266806b66b08e65058c313879b64c2f1824f34d5da3ac01b29e6b9d
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Ports:         80/TCP, 9000/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Command:
+      /bin/bash
+      -c
+    Args:
+      cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py; chown www-data.www-data /home/mediacms.io/mediacms/logs -R; /home/mediacms.io/mediacms/deploy/docker/start.sh
+    State:          Running
+      Started:      Mon, 05 May 2025 20:47:56 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:      50m
+      memory:   100Mi
+    Liveness:   http-get http://:80/ delay=60s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:80/ delay=30s timeout=1s period=10s #success=1 #failure=3
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:
+      ENABLE_UWSGI:         yes
+      ENABLE_NGINX:         yes
+      ENABLE_CELERY_BEAT:   no
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  no
+      ENABLE_CELERY_LONG:   no
+    Mounts:
+      /home/mediacms.io/mediacms/logs from mediacms (rw,path="logs")
+      /home/mediacms.io/mediacms/media_files from mediacms (rw,path="media_files")
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-49hbq (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  mediacms:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mediacms
+    ReadOnly:   false
+  mediacms-admin:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mediacms-admin
+    Optional:    false
+  settings:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      local-settings
+    Optional:  false
+  kube-api-access-49hbq:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m18s  default-scheduler  Successfully assigned mediacms/web-6f448c4995-tgfbv to debian
+  Normal  Pulled     9m8s   kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    9m4s   kubelet            Created container: postgres-check
+  Normal  Started    9m4s   kubelet            Started container postgres-check
+  Normal  Pulling    8m45s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     8m18s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 27.095s (27.095s including waiting). Image size: 574925288 bytes.
+  Normal  Created    8m13s  kubelet            Created container: migrations
+  Normal  Started    8m12s  kubelet            Started container migrations
+  Normal  Pulling    7m57s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     7m35s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 21.913s (21.913s including waiting). Image size: 574925288 bytes.
+  Normal  Created    7m32s  kubelet            Created container: web
+  Normal  Started    7m32s  kubelet            Started container web
+
+
+Name:             web-6f448c4995-tz7sp
+Namespace:        mediacms
+Priority:         0
+Service Account:  default
+Node:             debian/192.168.1.21
+Start Time:       Mon, 05 May 2025 20:46:09 +0700
+Labels:           app=mediacms
+                  pod-template-hash=6f448c4995
+Annotations:      cni.projectcalico.org/containerID: 68b173b297bbe6e32144b04f73e2d919659e043938145d3d283bdd74c7846972
+                  cni.projectcalico.org/podIP: 10.42.0.175/32
+                  cni.projectcalico.org/podIPs: 10.42.0.175/32
+Status:           Running
+IP:               10.42.0.175
+IPs:
+  IP:           10.42.0.175
+Controlled By:  ReplicaSet/web-6f448c4995
+Init Containers:
+  postgres-check:
+    Container ID:  containerd://dac7584557e43a8d9e290d112a482fac64d983754f03679ed2dca5b9702525f5
+    Image:         postgres:15
+    Image ID:      docker.io/library/postgres@sha256:8f6fbd24a12304d2adc332a2162ee9ff9d6044045a0b07f94d6e53e73125e11c
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      until pg_isready -h db -p 5432; do echo waiting for database; sleep 2; done;
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:46:19 +0700
+      Finished:     Mon, 05 May 2025 20:46:41 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-45c5g (ro)
+  migrations:
+    Container ID:  containerd://2e1538c577853ab77de12772e78202ea07c1f8ec9b4920930bc4795fd05df935
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+    Args:
+      mkdir -p /home/mediacms.io/mediacms/cms/; cp /local_settings.py  /home/mediacms.io/mediacms/cms/local_settings.py; python manage.py migrate; python manage.py loaddata fixtures/encoding_profiles.json; python manage.py loaddata fixtures/categories.json; python manage.py collectstatic --noinput; echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='${adminUser}').delete(); User.objects.create_superuser('${adminUser}','admin@example.com', '${adminPass}')" | python manage.py shell
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 May 2025 20:47:13 +0700
+      Finished:     Mon, 05 May 2025 20:47:27 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:      <none>
+    Mounts:
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-45c5g (ro)
+Containers:
+  web:
+    Container ID:  containerd://b2f7d86142f0136c77e6baac879cba039ee1a5c49f69d23791f2c95781c2058f
+    Image:         hoangbaoan1901/mediacms
+    Image ID:      docker.io/hoangbaoan1901/mediacms@sha256:284a2712d973cb7c026672229733019c59c9d9ab1c2d39f4c782d9c86323fe88
+    Ports:         80/TCP, 9000/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Command:
+      /bin/bash
+      -c
+    Args:
+      cp /local_settings.py /home/mediacms.io/mediacms/cms/local_settings.py; chown www-data.www-data /home/mediacms.io/mediacms/logs -R; /home/mediacms.io/mediacms/deploy/docker/start.sh
+    State:          Running
+      Started:      Mon, 05 May 2025 20:47:55 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:      50m
+      memory:   100Mi
+    Liveness:   http-get http://:80/ delay=60s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:80/ delay=30s timeout=1s period=10s #success=1 #failure=3
+    Environment Variables from:
+      mediacms-admin  Secret  Optional: false
+    Environment:
+      ENABLE_UWSGI:         yes
+      ENABLE_NGINX:         yes
+      ENABLE_CELERY_BEAT:   no
+      ENABLE_MIGRATIONS:    no
+      ENABLE_CELERY_SHORT:  no
+      ENABLE_CELERY_LONG:   no
+    Mounts:
+      /home/mediacms.io/mediacms/logs from mediacms (rw,path="logs")
+      /home/mediacms.io/mediacms/media_files from mediacms (rw,path="media_files")
+      /local_settings.py from settings (rw,path="local_settings.py")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-45c5g (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  mediacms:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mediacms
+    ReadOnly:   false
+  mediacms-admin:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mediacms-admin
+    Optional:    false
+  settings:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      local-settings
+    Optional:  false
+  kube-api-access-45c5g:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m19s  default-scheduler  Successfully assigned mediacms/web-6f448c4995-tz7sp to debian
+  Normal  Pulled     9m14s  kubelet            Container image "postgres:15" already present on machine
+  Normal  Created    9m9s   kubelet            Created container: postgres-check
+  Normal  Started    9m8s   kubelet            Started container postgres-check
+  Normal  Pulling    8m46s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     8m18s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 27.552s (27.552s including waiting). Image size: 574925288 bytes.
+  Normal  Created    8m15s  kubelet            Created container: migrations
+  Normal  Started    8m14s  kubelet            Started container migrations
+  Normal  Pulling    7m57s  kubelet            Pulling image "hoangbaoan1901/mediacms"
+  Normal  Pulled     7m36s  kubelet            Successfully pulled image "hoangbaoan1901/mediacms" in 20.5s (20.5s including waiting). Image size: 574925288 bytes.
+  Normal  Created    7m33s  kubelet            Created container: web
+  Normal  Started    7m33s  kubelet            Started container web
